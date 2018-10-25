@@ -18,7 +18,7 @@ class BaseValidate extends Validate
     {
         $request = Request::instance();
         $param = $request->param();
-
+        $param['token'] = $request->header('token');
         if(!$this->check($param)){
             $exception = new ParamException([
                  'msg' => is_array($this->error) ? implode(';',$this->error) : $this->error
@@ -34,6 +34,8 @@ class BaseValidate extends Validate
         if(is_numeric($value) && is_int($value+0) && ($value + 0) >0 ) {
             return true;
         }
-        return $field.'必须是正整数';
+        return false;
+//        return $field . '必须是正整数';
+
     }
 }

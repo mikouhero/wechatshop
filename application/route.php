@@ -10,5 +10,12 @@
 // +----------------------------------------------------------------------
 
 use think\Route;
+//获取banner信息
+Route::get('api/:v/banner/:id','api/:v.Banner/getBanner');
 
-Route::get('api/:v/banner/:id','api/:v.banner/getBanner');
+//获取主题信息
+
+Route::group('api/:version/theme',function(){
+//    避免提前匹配
+    Route::get('', 'api/:version.Theme/getSimpleList');
+});
