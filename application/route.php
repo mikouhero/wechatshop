@@ -11,11 +11,13 @@
 
 use think\Route;
 //获取banner信息
-Route::get('api/:v/banner/:id','api/:v.Banner/getBanner');
+Route::get('api/:version/banner/:id','api/:version.Banner/getBanner');
 
 //获取主题信息
 
 Route::group('api/:version/theme',function(){
 //    避免提前匹配
     Route::get('', 'api/:version.Theme/getSimpleList');
+    Route::get('/:id', 'api/:version.Theme/getComplexOne');
+    Route::post(':t_id/product/:p_id','api/:version.Theme/addThemeProduct');
 });

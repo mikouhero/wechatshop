@@ -9,6 +9,9 @@ namespace app\api\controller\v1;
 
 
 use app\api\validate\IDCollection;
+use app\api\validate\IDMustBePositiveInt;
+use app\api\validate\ThemeProduct;
+use app\lib\exception\SuccessMessage;
 use app\lib\exception\ThemeException;
 use think\Controller;
 use app\api\model\Theme as ThemeModel;
@@ -36,10 +39,60 @@ class Theme extends Controller
         //一组用find  多组用select
         //修改database 文件 resultset_type 改为 collection
         $result = ThemeModel::with('topicImg,headImg')->select($ids);
-        if($result->isEmpty()){
+        if ($result->isEmpty()) {
             throw new ThemeException();
         }
         return $result;
+
+    }
+
+    /**
+     * Decription : 获取指定主题下的描述以及 products
+     * @url /theme/getComplexOne/2
+     * @param $id
+     * return mixed
+     * @throws ThemeException
+     * @author: Mikou.hu
+     * Date: 2018/10/25
+     */
+    public function getComplexOne($id)
+    {
+        (new IDMustBePositiveInt())->goCheck();
+        $theme = ThemeModel::getThreeWithProduct($id);
+        if ($theme->isEmpty()) {
+            throw new ThemeException();
+        }
+
+        return $theme->hidden(['products.summary'])->toArray();
+
+    }
+
+
+    /**
+     * Decription :
+     * @url /theme/:t_id/product/:p_id
+     * @param $t_id
+     * @param $p_id
+     * return SuccessMessage
+     * @author: Mikou.hu
+     * Date: 2018/10/25
+     */
+    public function addThemeProduct($t_id, $p_id)
+    {
+        $validate = new ThemeProduct();
+        $validate->goCheck();
+        ThemeModel::addThemeProduct($t_id, $p_id);
+        return new SuccessMessage();
+    }
+
+    public function deleteThemeProduct($t_id, $p_id)
+    {
+        $validate = new ThemeProduct();
+        $validate->goCheck();
+        $themeID = (int)$t_id;
+        $productID = (int)$p_id;
+        ThemeModel::deleteThemeProduct($themeID, $productID);
+        return new SuccessMessage();
 
     }
 }

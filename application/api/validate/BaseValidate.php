@@ -34,8 +34,8 @@ class BaseValidate extends Validate
         if(is_numeric($value) && is_int($value+0) && ($value + 0) >0 ) {
             return true;
         }
-        return false;
-//        return $field . '必须是正整数';
+//        return false;
+        return $field . '必须是正整数';
 
     }
 }
