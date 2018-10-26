@@ -26,6 +26,20 @@ class Product extends BaseModel
         return $this->hasMany('ProductImage','product_id','id');
     }
 
+    public function getMainImgUrlAttr($value,$data)
+    {
+        return $this->prefixImgUrl($value,$data);
+    }
+
+    /**
+     * Decription :商品属性
+     * @author: Mikou.hu
+     * Date: 2018/10/26
+     */
+    public  function  properties()
+    {
+        return $this->hasMany('ProductProperty','product_id','id');
+    }
     public static function getProductsByCategoryID($categoryID, $paginate = true, $page = 1, $size = 30)
     {
         $query = self::where('category_id','=',$categoryID);
@@ -51,5 +65,15 @@ class Product extends BaseModel
             ->order('create_time desc')
             ->select();
         return $products;
+    }
+
+    public static function getProductDetail($id)
+    {
+        $producrt = self::with(['imgs'=>function($query)
+                {
+                    $query->with('imgUrl')->order('order','desc');
+                }
+        ])->with('properties')->find($id);
+        return $producrt;
     }
 }
