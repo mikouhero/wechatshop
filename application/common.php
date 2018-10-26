@@ -30,3 +30,16 @@ function base64_image_content($base64_image_content,$path)
         return false;
     }
 }
+
+
+function getRandChar($length){
+    $str = null;
+    $strPol = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    $max = strlen($strPol) - 1;
+
+    for($i = 0;$i < $length; $i++){
+        $str .= $strPol[rand(0,$max)];
+    }
+
+    return $str;
+}

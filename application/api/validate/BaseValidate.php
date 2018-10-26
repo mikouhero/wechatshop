@@ -19,9 +19,9 @@ class BaseValidate extends Validate
         $request = Request::instance();
         $param = $request->param();
         $param['token'] = $request->header('token');
-        if(!$this->check($param)){
+        if (!$this->check($param)) {
             $exception = new ParamException([
-                 'msg' => is_array($this->error) ? implode(';',$this->error) : $this->error
+                'msg' => is_array($this->error) ? implode(';', $this->error) : $this->error
             ]);
             throw $exception;
         }
@@ -29,13 +29,22 @@ class BaseValidate extends Validate
         return true;
     }
 
-    protected function isPositiveInteger($value,$rule='',$data='',$field='')
+    protected function isPositiveInteger($value, $rule = '', $data = '', $field = '')
     {
-        if(is_numeric($value) && is_int($value+0) && ($value + 0) >0 ) {
+        if (is_numeric($value) && is_int($value + 0) && ($value + 0) > 0) {
             return true;
         }
 //        return false;
         return $field . '必须是正整数';
 
+    }
+
+    protected function isNotempty($value, $rule = '', $data = '', $field = '')
+    {
+        if (empty($value)) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }

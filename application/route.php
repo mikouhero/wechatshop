@@ -28,3 +28,10 @@ Route::get('api/:version/product/by_category/paginate/:id', 'api/:version.Produc
 Route::get('api/:version/product/by_category/:id', 'api/:version.Product/getAllInCategory');
 Route::get('api/:version/product/:id', 'api/:version.Product/getOne',[],['id'=>'\d+']);
 Route::get('api/:version/product/recent/:count', 'api/:version.Product/getRecent');
+
+
+Route::get('api/:version/category', 'api/:version.Category/getCategory');
+// 正则匹配区别id和all，注意d后面的+号，没有+号将只能匹配个位数
+//Route::get('api/:version/category/:id', 'api/:version.Category/getCategory',[], ['id'=>'\d+']);
+//Route::get('api/:version/category/:id/products', 'api/:version.Category/getCategory',[], ['id'=>'\d+']);
+Route::get('api/:version/category/all', 'api/:version.Category/getAllCategories');
