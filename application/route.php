@@ -21,3 +21,10 @@ Route::group('api/:version/theme',function(){
     Route::get('/:id', 'api/:version.Theme/getComplexOne');
     Route::post(':t_id/product/:p_id','api/:version.Theme/addThemeProduct');
 });
+
+//Route::post('api/:version/product', 'api/:version.Product/createOne');
+//Route::delete('api/:version/product/:id', 'api/:version.Product/deleteOne');
+//Route::get('api/:version/product/by_category/paginate/:id', 'api/:version.Product/getByCategory');
+Route::get('api/:version/product/by_category/:id', 'api/:version.Product/getAllInCategory');
+//Route::get('api/:version/product/:id', 'api/:version.Product/getOne',[],['id'=>'\d+']);
+Route::get('api/:version/product/recent/:count', 'api/:version.Product/getRecent');
