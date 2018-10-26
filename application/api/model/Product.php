@@ -40,6 +40,18 @@ class Product extends BaseModel
     {
         return $this->hasMany('ProductProperty','product_id','id');
     }
+
+    /**
+     * Decription : 获取指定分类下的商品
+     * @param $categoryID
+     * @param bool $paginate
+     * @param int $page
+     * @param int $size
+     * return false|mixed|\PDOStatement|string|\think\Collection|\think\Paginator
+     * @throws \think\exception\DbException
+     * @author: Mikou.hu
+     * Date: 2018/10/26
+     */
     public static function getProductsByCategoryID($categoryID, $paginate = true, $page = 1, $size = 30)
     {
         $query = self::where('category_id','=',$categoryID);
@@ -67,10 +79,21 @@ class Product extends BaseModel
         return $products;
     }
 
+    /**
+     * Decription : 获取制定商品的详细信息
+     * @param $id
+     * return array|false|mixed|\PDOStatement|string|\think\Model
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * @author: Mikou.hu
+     * Date: 2018/10/26
+     */
     public static function getProductDetail($id)
     {
         $producrt = self::with(['imgs'=>function($query)
                 {
+                    // 链式排序
                     $query->with('imgUrl')->order('order','desc');
                 }
         ])->with('properties')->find($id);
