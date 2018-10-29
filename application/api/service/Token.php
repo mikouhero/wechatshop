@@ -7,6 +7,8 @@
  */
 namespace app\api\service;
 
+use think\Cache;
+
 class Token
 {
     /**
@@ -24,5 +26,15 @@ class Token
         $tokenSalt = config('secure.token_salt');
 
         return md5($randChar.$timestamp.$tokenSalt);
+    }
+
+    public  static function verifyToken($token)
+    {
+        $exist = Cache::get($token);
+        if($exist){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

@@ -50,7 +50,6 @@ class UserToken extends Token
             } else {
                 return $this->grantToken($wxResult);
             }
-
         }
     }
 
@@ -70,6 +69,14 @@ class UserToken extends Token
         );
     }
 
+    /**
+     * Decription :
+     * @param $wxResult  微信返回的成功信息
+     * return string     加密后的token
+     * @throws TokenException
+     * @author: Mikou.hu
+     * Date: 2018/10/29\
+     */
     private function grantToken($wxResult)
     {
         $openid = $wxResult['openid'];
@@ -85,6 +92,14 @@ class UserToken extends Token
         return $token;
     }
 
+    /**
+     * Decription : 将用户的信息存入缓存 key
+     * @param $wxRsult
+     * return string
+     * @throws TokenException
+     * @author: Mikou.hu
+     * Date: 2018/10/29
+     */
     private function saveToCache($wxRsult)
     {
         $key = self::generateToken();
@@ -99,6 +114,15 @@ class UserToken extends Token
         }
         return $key;
     }
+
+    /**
+     * Decription : 组装用户的信息
+     * @param $wxResult
+     * @param $uid
+     * return mixed
+     * @author: Mikou.hu
+     * Date: 2018/10/29
+     */
     private function prepareCachedValue($wxResult, $uid)
     {
         $cacheValue = $wxResult;
