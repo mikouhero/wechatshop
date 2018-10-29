@@ -35,3 +35,6 @@ Route::get('api/:version/category', 'api/:version.Category/getCategory');
 //Route::get('api/:version/category/:id', 'api/:version.Category/getCategory',[], ['id'=>'\d+']);
 //Route::get('api/:version/category/:id/products', 'api/:version.Category/getCategory',[], ['id'=>'\d+']);
 Route::get('api/:version/category/all', 'api/:version.Category/getAllCategories');
+
+//获取Token 需要权限
+Route::post('api/:version/token/user', 'api/:version.Token/getToken');

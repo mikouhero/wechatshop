@@ -26,4 +26,10 @@ return [
         "grant_type=client_credential&appid=%s&secret=%s",
 
 
+    // 小程序app_id
+    'app_id' => 'wx78d200b9cdb50ba4',
+
+    // 小程序app_secret
+    'app_secret' => 'ca7f7bfa815cbb4d410929ebe08dfc88',
+
 ];

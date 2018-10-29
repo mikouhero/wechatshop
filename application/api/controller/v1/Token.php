@@ -15,6 +15,7 @@ class Token
 {
     public function getToken($code = '')
     {
+
         (new TokenGet())->goCheck();
         $wx = new UserToken($code);
         $token = $wx->get();

@@ -25,7 +25,6 @@ class BaseValidate extends Validate
             ]);
             throw $exception;
         }
-
         return true;
     }
 

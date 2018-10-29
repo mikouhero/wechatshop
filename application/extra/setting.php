@@ -6,5 +6,5 @@
  */
 return [
   'img_prefix' => 'https://tp5.com/images',
-    'token_expire_in' => 7200
+    'token_expire_in' => 7200,
 ];

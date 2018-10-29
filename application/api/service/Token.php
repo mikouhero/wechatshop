@@ -19,10 +19,10 @@ class Token
     {
         //随机字符串
         $randChar = getRandChar(32);
-        $timestamp = $_SERVER['REQUEST_TIME_FLOST'];
+        $timestamp = $_SERVER['REQUEST_TIME_FLOAT'];
         //盐
         $tokenSalt = config('secure.token_salt');
 
-        return md5($randChar.$tokenSalt.$tokenSalt);
+        return md5($randChar.$timestamp.$tokenSalt);
     }
 }

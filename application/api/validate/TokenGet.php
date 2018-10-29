@@ -15,6 +15,6 @@ class TokenGet extends BaseValidate
     ];
 
     protected $message = [
-        'code' => 'token都没有  你想干啥'
+        'code' => 'token都没有你想干啥'
     ];
 }
