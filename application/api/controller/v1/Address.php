@@ -42,24 +42,32 @@ class Address extends BaseController
         return $userAddress;
     }
 
+    /**
+     * Decription :更新或者创建用户地址
+     * return SuccessMessage
+     * @throws UserException
+     * @author: Mikou.hu
+     * Date: 2018/10/29
+     */
     public function createOrUpdateAddress()
     {
         $validate = new AddressNew();
         $validate->goCheck();
+        // 根据token 获取uid
         $uid = Token::getCurrentUid();
         $user = User::get($uid);
         $data = $validate->getDataByRule(input('post.'));
-        if(!$user){
+        if (!$user) {
             throw new UserException([
                 'code' => 404,
                 'msg' => '不存在的用户',
                 'errorCode' => 60001
             ]);
         }
-        $userAddress =$user->address;
-        if(!$userAddress){
+        $userAddress = $user->address;
+        if (!$userAddress) {
             $user->Address()->save();
-        }else{
+        } else {
             $user->address->save($data);
         }
 

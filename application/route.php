@@ -48,3 +48,9 @@ Route::post('api/:version/token/verify', 'api/:version.Token/verifyToken');
 //Address  需要权限
 Route::post('api/:version/address', 'api/:version.Address/createOrUpdateAddress');
 Route::get('api/:version/address', 'api/:version.Address/getUserAddress');
+
+//Order 需要权限
+Route::post('api/:version/order', 'api/:version.Order/placeOrder');
+// l路由规则 必须时正整数（正则匹配）
+Route::get('api/:version/order/:id', 'api/:version.Order/getDetail',[], ['id'=>'\d+']);
+Route::put('api/:version/order/delivery', 'api/:version.Order/delivery');
