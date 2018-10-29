@@ -44,3 +44,7 @@ Route::post('api/:version/token/app', 'api/:version.Token/getAppToken');
 
 // 验证token是否存在
 Route::post('api/:version/token/verify', 'api/:version.Token/verifyToken');
+
+//Address  需要权限
+Route::post('api/:version/address', 'api/:version.Address/createOrUpdateAddress');
+Route::get('api/:version/address', 'api/:version.Address/getUserAddress');
