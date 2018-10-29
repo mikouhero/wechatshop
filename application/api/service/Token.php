@@ -10,6 +10,7 @@ namespace app\api\service;
 
 use app\lib\enum\ScopeEnum;
 use app\lib\exception\ForbiddenException;
+use app\lib\exception\ParamException;
 use app\lib\exception\TokenException;
 use think\Cache;
 use Think\Exception;
@@ -65,9 +66,18 @@ class Token
         }
     }
 
+    /**
+     * Decription : 传入指定的key 返回需要的信息
+     * @param $key
+     * return mixed
+     * @throws Exception
+     * @throws TokenException
+     * @author: Mikou.hu
+     * Date: 2018/10/29
+     */
     public static function getCurrentTokenVar($key)
     {
-        $token = Request::instance()->header();
+        $token = Request::instance()->header('token');
         $vars = Cache::get($token);
         if (!$vars) {
             throw new TokenException();
@@ -114,7 +124,7 @@ class Token
     public static function checkSuperScope()
     {
         $scope = self::getCurrentTokenVar('scope');
-        if ($scope){
+        if ($scope) {
             if ($scope == ScopeEnum::Super) {
                 return true;
             } else {
@@ -123,5 +133,25 @@ class Token
         } else {
             throw new TokenException();
         }
+    }
+
+    public static function getCurrentUid()
+    {
+        $uid = self::getCurrentTokenVar('uid');
+        $scope = self::getCurrentTokenVar('scope');
+        if($scope == ScopeEnum::Super){
+            // 只有Super权限才可以自己传入uid
+            // 且必须在get参数中，post不接受任何uid字段
+            $userID = input('get.uid');
+            if(!$userID){
+                throw new ParamException([
+                    'msg'=>'没有指定需要挫折的用户对象'
+                ]);
+            }
+            return $userID;
+        }else{
+            return $uid;
+        }
+
     }
 }
