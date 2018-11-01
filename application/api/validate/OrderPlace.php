@@ -7,10 +7,11 @@
 
 namespace app\api\validate;
 
+use app\lib\exception\ParamException;
 
 class OrderPlace extends BaseValidate
 {
-//$products = ['product_id'=>1,'count'=>2 ]）
+//$products = ['product_id'=>1,'count'=>2 ]
     protected $rule = [
         'products' => 'checkProducts'
     ];
@@ -21,7 +22,7 @@ class OrderPlace extends BaseValidate
     protected function checkProducts($values)
     {
         if (empty($values)) {
-            throw new ParameterException([
+            throw new ParamException([
                 'msg' => '商品列表不能为空'
             ]);
         }
@@ -36,9 +37,10 @@ class OrderPlace extends BaseValidate
         $validate = new BaseValidate($this->singleRule);
         $result = $validate->check($value);
         if (!$result) {
-            throw new ParameterException([
+            throw new ParamException([
                 'msg' => '商品列表参数错误',
             ]);
         }
+        return true;
     }
 }

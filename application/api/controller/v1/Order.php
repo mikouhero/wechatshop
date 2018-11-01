@@ -17,13 +17,15 @@ class Order extends BaseController
 {
     public function placeOrder()
     {
-//        $products = ['product_id'=>1,'count'=>1.2];
+        //json 格式数据
+ //       {"products":	[{"product_id":1,"count":1}]}
+
         (new OrderPlace())->goCheck();
+
         $products = input('post.products/a');
         $uid = Token::getCurrentUid();
         $order = new OrderService();
         $status = $order->place($uid,$products);
         return $status;
-
     }
 }
