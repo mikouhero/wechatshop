@@ -37,7 +37,7 @@ Route::get('api/:version/category', 'api/:version.Category/getCategory');
 Route::get('api/:version/category/all', 'api/:version.Category/getAllCategories');
 
 //获取Token 需要权限
-Route::post('api/:version/token/user', 'api/:version.Token/getTo    ken');
+Route::post('api/:version/token/user', 'api/:version.Token/getToken');
 
 //第三方
 Route::post('api/:version/token/app', 'api/:version.Token/getAppToken');
