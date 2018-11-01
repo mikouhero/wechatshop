@@ -11,6 +11,7 @@ namespace app\api\service;
 use app\api\model\OrderProduct;
 use app\api\model\Product;
 use app\api\model\UserAddress;
+use app\lib\enum\OrderStatusEnum;
 use app\lib\exception\OrderException;
 use app\lib\exception\UserException;
 use think\Exception;
@@ -38,12 +39,39 @@ class Order
         if (!$status['pass']) {
             $status['order_id'] = -1;
             return $status;
-         }
-         // 通过检测  创建订单
+        }
+        // 通过检测  创建订单
         $orderSnap = $this->snapOrder();
         $status = self::createOrderByTrans($orderSnap);
         $status['pass'] = true;
         return $status;
+    }
+
+    /**
+     * Decription :发货接口
+     * @param $orderID
+     * @param string $jumpPage
+     * @throws OrderException
+     * @author: Mikou.hu
+     * Date: 2018/11/1
+     */
+    public function delivery($orderID, $jumpPage = '')
+    {
+        $order = OrderModel::where('id', '=', $orderID)->find();
+        if (!$order) {
+            throw new OrderException();
+        }
+        if ($order->status != OrderStatusEnum::PAID) {
+            throw new OrderException([
+                'msg' => '还没付款呢，想干嘛？或者你已经更新过订单了，不要再刷了',
+                'errorCode' => 80002,
+                'code' => 403
+            ]);
+        }
+        $order->status = OrderStatusEnum::DELIVERED;
+        $order->save();
+        $message = new DeliveryMessage();
+        return $message->sendDeliveryMessage($order,$jumpPage);
     }
 
     /**
@@ -155,22 +183,22 @@ class Order
      */
     private function snapOrder()
     {
-        $snap =[
-            'orderPrice' =>0,
-            'totalCount' =>0,
-            'pStatus' =>[],
-            'snapAddress' =>json_encode($this->getUserAddress()),
+        $snap = [
+            'orderPrice' => 0,
+            'totalCount' => 0,
+            'pStatus' => [],
+            'snapAddress' => json_encode($this->getUserAddress()),
             'snapName' => $this->products[0]['name'],
-            'snapImg' =>$this->products[0]['main_img_url'],
+            'snapImg' => $this->products[0]['main_img_url'],
         ];
-        if(count($this->products) >1){
+        if (count($this->products) > 1) {
             $snap['snapName'] .= '等';
         }
 
-        for ($i=0;$i<count($this->products);$i++){
+        for ($i = 0; $i < count($this->products); $i++) {
             $product = $this->products[$i];
             $oProduct = $this->oProducts[$i];
-            $pStatus = $this->snapProduct($product,$oProduct['count']);
+            $pStatus = $this->snapProduct($product, $oProduct['count']);
             $snap['orderPrice'] += $pStatus['totalPrice'];
             $snap['totalCount'] += $pStatus['count'];
             array_push($snap['pStatus'], $pStatus);
@@ -189,10 +217,10 @@ class Order
      * @author: Mikou.hu
      * Date: 2018/11/1
      */
-    private  function getUserAddress()
+    private function getUserAddress()
     {
-        $userAddress = UserAddress::where('user_id','=',$this->uid)->find();
-        if(!$userAddress){
+        $userAddress = UserAddress::where('user_id', '=', $this->uid)->find();
+        if (!$userAddress) {
             throw  new UserException(
                 [
                     'msg' => '用户收货地址不存在，下单失败',
@@ -211,18 +239,18 @@ class Order
      * @author: Mikou.hu
      * Date: 2018/11/1\
      */
-    private function snapProduct($product,$oCount)
+    private function snapProduct($product, $oCount)
     {
         $pStatus = [
             'id' => null,
             'name' => null,
             'main_img_url' => null,
-            'count' =>$oCount,
-            'totalPrice' =>0,
-            'price' =>0
+            'count' => $oCount,
+            'totalPrice' => 0,
+            'price' => 0
         ];
         $pStatus['count'] = $oCount;
-        $pStatus['totalPrice'] = $oCount* $product['price'];
+        $pStatus['totalPrice'] = $oCount * $product['price'];
         $pStatus['name'] = $product['name'];
         $pStatus['id'] = $product['id'];
         $pStatus['main_img_url'] = $product['main_img_url'];
@@ -240,7 +268,7 @@ class Order
      */
     private function createOrderByTrans($snap)
     {
-        try{
+        try {
             $orderNo = $this->makeOrderNo();
             $order = new OrderModel();
             $order->user_id = $this->uid;
@@ -256,8 +284,8 @@ class Order
             $orderID = $order->id;
             $create_time = $order->create_time;
 
-            foreach($this->oProducts as &$p){
-                $p['order_id'] =$orderID;
+            foreach ($this->oProducts as &$p) {
+                $p['order_id'] = $orderID;
             }
             $orderProduct = new OrderProduct();
             $orderProduct->saveAll($this->oProducts);
@@ -267,8 +295,7 @@ class Order
                 'order_id' => $orderID,
                 'create_time' => $create_time
             ];
-        }catch(Exception $ex)
-        {
+        } catch (Exception $ex) {
             throw $ex;
         }
     }

@@ -135,6 +135,15 @@ class Token
         }
     }
 
+    /**
+     * Decription :获取当前用户的uid
+     * return mixed
+     * @throws Exception
+     * @throws ParamException
+     * @throws TokenException
+     * @author: Mikou.hu
+     * Date: 2018/11/1
+     */
     public static function getCurrentUid()
     {
         $uid = self::getCurrentTokenVar('uid');
