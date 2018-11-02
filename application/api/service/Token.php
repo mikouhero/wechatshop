@@ -163,4 +163,27 @@ class Token
         }
 
     }
+
+    /**
+     * Decription :检查传入的uid 是否合法
+     * @param $checkedUID
+     * return bool
+     * @throws Exception
+     * @throws ParamException
+     * @throws TokenException
+     * @author: Mikou.hu
+     * Date: 2018/11/1
+     */
+    public static function isValidOperate($checkedUID)
+    {
+        if(!$checkedUID){
+            throw new Exception('检查UID时必须传入一个被检查的UID');
+        }
+        $currentOperateUID = self::getCurrentUid();
+        if($currentOperateUID == $checkedUID){
+            return true;
+        }
+        return false;
+    }
+
 }

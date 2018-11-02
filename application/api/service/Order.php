@@ -74,6 +74,15 @@ class Order
         return $message->sendDeliveryMessage($order,$jumpPage);
     }
 
+    public  function checkOrderStock($orderID)
+    {
+        $oProducts = OrderProduct::where('order_id','=',$orderID)->select();
+        $this->products = $this->getProductsByOrder($oProducts);
+        $this->oProducts = $oProducts;
+        $status = $this->getOrderStatus();
+        return $status;
+    }
+
     /**
      * Decription :通过下单数据返回数据库中的详细信息
      * @param $oProducrs

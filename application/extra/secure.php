@@ -6,5 +6,6 @@
  */
 
 return [
-    'token_sale' =>'heheda'  // 盐值
+    'token_sale' =>'heheda',  // 盐值
+    'pay_back_url' => 'https://tp5.com/api/v1/pay/notify'
 ];
