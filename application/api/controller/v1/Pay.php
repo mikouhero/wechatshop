@@ -17,6 +17,8 @@ class Pay extends BaseController
 {
     /**
      * Decription :微信发起预订单请求
+     * @url-post /api/v1/pay/pre_order
+     * {"id":1}
      * @param $id
      * return array
      * @author: Mikou.hu

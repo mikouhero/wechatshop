@@ -24,6 +24,7 @@ class Product extends Controller
 
     /**
      * Decription :获取指定分类下的商品 分页
+     * @url-get Product/by_category/paginate/2
      * @param int $id
      * @param int $page
      * @param int $size
@@ -54,7 +55,7 @@ class Product extends Controller
 
     /**
      * Decription :获取某分类下全部商品(不分页）
-     * @url /product/by_category/:id
+     * @url-get /product/by_category/:id
      * @param int $id
      * return false|mixed|\PDOStatement|string|\think\Collection|\think\Paginator
      * @throws ThemeException
@@ -73,7 +74,7 @@ class Product extends Controller
 
     /**
      * Decription 获取最近的商品
-     * @url product/recent/:count
+     * @url-get product/recent/:count
      * @param int $count
      * @author: Mikou.hu
      * Date: 2018/10/26
@@ -91,6 +92,7 @@ class Product extends Controller
 
     /**
      * Decription : 获取指定id 的商品
+     * @url-get /api/product/:id
      * @param $id
      * return ProductModel|array|false|mixed|null|\PDOStatement|string|\think\Model
      * @throws ProductException

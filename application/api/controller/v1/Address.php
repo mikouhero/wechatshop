@@ -24,6 +24,7 @@ class Address extends BaseController
 
     /**
      * Decription 获取用户的地址
+     * @url-get /api/v1/address
      * return array|false|mixed|\PDOStatement|string|\think\Model
      * @throws UserException
      * @author: Mikou.hu
@@ -44,6 +45,15 @@ class Address extends BaseController
 
     /**
      * Decription :更新或者创建用户地址
+     * @url-post  /api/v1/address
+     * 数据格式 ： {
+        "name": "heheda",
+        "mobile": "13812345678",
+        "province": "上海",
+        "city": "上海",
+        "country": "中国",
+        "detail": "徐汇斜土路"
+        }
      * return SuccessMessage
      * @throws UserException
      * @author: Mikou.hu

@@ -12,7 +12,7 @@ use think\Model;
 
 class BannerItem extends Model
 {
-    protected $hidden = ['img_id', 'banner_id', 'delete_time'];
+    protected $hidden = ['img_id', 'banner_id', 'delete_time','update_time'];
 
     public function img()
     {

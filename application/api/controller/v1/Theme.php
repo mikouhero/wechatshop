@@ -19,9 +19,9 @@ use app\api\model\Theme as ThemeModel;
 class Theme extends Controller
 {
     /**
-     * Decription :
+     * Decription : 获取主题列表
      * @param string $ids
-     * @url     /theme?ids=:id1,id2,id3...
+     * @url-get     /api/v1/theme?ids=1
      * @return  array of theme
      * @throws ThemeException
      * 实体查询分单一和列表查询，可以只设计一个接收列表接口，
@@ -48,7 +48,7 @@ class Theme extends Controller
 
     /**
      * Decription : 获取指定主题下的描述以及 products
-     * @url /theme/getComplexOne/2
+     * @url-get /theme/getComplexOne/2
      * @param $id
      * return mixed
      * @throws ThemeException
@@ -67,9 +67,8 @@ class Theme extends Controller
 
     }
 
-
     /**
-     * Decription :
+     * Decription :添加主题
      * @url /theme/:t_id/product/:p_id
      * @param $t_id
      * @param $p_id

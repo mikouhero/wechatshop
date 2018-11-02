@@ -135,6 +135,20 @@ class Token
         }
     }
 
+    public static function needSuperScope()
+    {
+        $scope = self::getCurrentTokenVar('scope');
+        if ($scope){
+            if ($scope == ScopeEnum::Super) {
+                return true;
+            } else {
+                throw new ForbiddenException();
+            }
+        } else {
+            throw new TokenException();
+        }
+    }
+
     /**
      * Decription :获取当前用户的uid
      * return mixed

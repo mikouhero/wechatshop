@@ -19,6 +19,8 @@ class Token
 {
     /**
      * Decription :通过code换取token
+     * @url-post /api/token/user
+     * {'code' :123}
      * @param string $code
      * return array
      * @author: Mikou.hu
@@ -36,6 +38,8 @@ class Token
 
     /**
      * Decription :检验token是否过期
+     * @url-post /api/v1/token/verify
+     * {token:"123"}
      * @param string $token
      * return array
      * @throws ParamException
@@ -45,13 +49,14 @@ class Token
     public function verifyToken($token = '')
     {
         if (!$token) {
-            throw new ParamException('token不允许为空');
+            throw new ParamException([
+                'msg' => 'token不允许为空'
+            ]);
         }
         $valid = TokenService::verifyToken($token);
 
         return ['isValid' => $valid];
     }
-
 
     public function getAppToken($ac = '', $se = '')
     {

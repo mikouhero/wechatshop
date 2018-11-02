@@ -30,7 +30,7 @@ Route::get('api/:version/product/:id', 'api/:version.Product/getOne',[],['id'=>'
 Route::get('api/:version/product/recent/:count', 'api/:version.Product/getRecent');
 
 
-Route::get('api/:version/category', 'api/:version.Category/getCategory');
+Route::get('api/:version/category/:id', 'api/:version.Category/getCategory');
 // 正则匹配区别id和all，注意d后面的+号，没有+号将只能匹配个位数
 //Route::get('api/:version/category/:id', 'api/:version.Category/getCategory',[], ['id'=>'\d+']);
 //Route::get('api/:version/category/:id/products', 'api/:version.Category/getCategory',[], ['id'=>'\d+']);
@@ -44,6 +44,7 @@ Route::post('api/:version/token/app', 'api/:version.Token/getAppToken');
 
 // 验证token是否存在
 Route::post('api/:version/token/verify', 'api/:version.Token/verifyToken');
+
 
 //Address  需要权限
 Route::post('api/:version/address', 'api/:version.Address/createOrUpdateAddress');
@@ -59,3 +60,12 @@ Route::get('api/:version/order/paginate', 'api/:version.Order/getSummary');
 
 //微信发起预订单请求 需要权限
 Route::post('api/:version/pay/pre_order', 'api/:version.Pay/getPreOrder');
+Route::post('api/:version/refund/pre_order','api/:version.Refund/getPreRefund');
+// 微信回调通知 不要加参数，微信会自动过滤？后面的参数
+Route::post('api/:version/pay/notify', 'api/:version.Pay/receiveNotify');
+// debug 路由转发
+Route::post('api/:version/pay/re_notify', 'api/:version.Pay/redirectNotify');
+Route::post('api/:version/pay/concurrency', 'api/:version.Pay/notifyConcurrency');
+
+//Message
+Route::post('api/:version/message/delivery', 'api/:version.Message/sendDeliveryMsg');
