@@ -94,7 +94,7 @@ class Product extends BaseModel
         $producrt = self::with(['imgs'=>function($query)
                 {
                     // 链式排序
-                    $query->with('imgUrl')->order('order','desc');
+                    $query->with('imgUrl')->order('order','asc');
                 }
         ])->with('properties')->find($id);
         return $producrt;
